@@ -2,16 +2,16 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: eks-spot-cluster-1
+  name: eks-spot-cluster
   region: us-east-1
 
-managedNodeGroups:
-  - name: spot-1
+managedNodeGroups: # this is also completely managed by AWS
+  - name: spot
     instanceType: m5.large
+    # your K8 node can be anytime taken back by AWS
     spot: true
-    availabilityZones:
-      - us-east-1a
+    availabilityZones: # ebs static provisioning
+    - us-east-1a
     desiredCapacity: 3
     ssh:
-      publicKeyName: kubernetes # Ensure this key pair exists in AWS
-    amiFamily: AmazonLinux2 # Explicitly defining the AMI family
+      publicKeyName: kubernetes # replace this with your keypair exists in AWS.
